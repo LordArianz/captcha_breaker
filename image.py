@@ -1,6 +1,9 @@
 from cv2 import cv2
 import numpy as np
 from config import CONFIGURATION
+import base64
+from PIL import ImageFont, ImageDraw, Image
+from io import StringIO, BytesIO
 
 
 def mask(img, low, high, new_color=(0, 0, 0)):
@@ -12,9 +15,7 @@ def mask(img, low, high, new_color=(0, 0, 0)):
     img[mask > 0] = new_color
     return img
 
-
-def split_letters(fname, num_letters=6, debug=False):
-    raw_image = cv2.imread(fname)
+def split_letters(raw_image, num_letters=6):
     raw_image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB)
 
     mask(raw_image, [200, 150, 0], [255, 190, 50], (255, 255, 255))
@@ -62,3 +63,19 @@ def split_letters(fname, num_letters=6, debug=False):
         # seg = cv2.rectangle(seg, (x - hl_x, y - hl_y), (x + hl_x, y + hl_y), (255, 0, 0))
 
     return letters
+
+
+def readb64(b64):
+    imgdata = base64.b64decode(b64)
+    image = Image.open(BytesIO(imgdata))
+    return cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+
+
+def get_letters(fname, num_letters=6):
+    raw_image = cv2.imread(fname)
+    return split_letters(raw_image, num_letters)
+
+
+def get_letters_b64(b64, num_letters=6):
+    raw_image = readb64(b64)
+    return split_letters(raw_image, num_letters)

@@ -1,6 +1,6 @@
 import os
 from config import CONFIGURATION
-from image import split_letters
+from image import get_letters
 import numpy as np
 from cv2 import cv2
 from helper import letter_to_class, build_data_map 
@@ -19,7 +19,7 @@ def main():
         counter += 1
         print(counter, fname, contents)
 
-        letters = split_letters(os.path.join(dir_path, fname), len(contents))
+        letters = get_letters(os.path.join(dir_path, fname), len(contents))
         if letters != None:
             for i, letter in enumerate(letters):
                 heigth, width = np.shape(letter)
@@ -59,7 +59,7 @@ def build_captcha_data(path):
     image_contents = build_data_map(path)
 
     for fname, contents in image_contents.items():        
-        letters = split_letters(os.path.join(path, fname), len(contents))
+        letters = get_letters(os.path.join(path, fname), len(contents))
         if letters != None:
             X = []
             for _, letter in enumerate(letters):

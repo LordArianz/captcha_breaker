@@ -6,7 +6,6 @@ import numpy as np
 from model import build_model
 from helper import class_to_letter, build_data_map, letter_to_class, prediction_to_captcha
 import os
-from image import split_letters
 from cv2 import cv2
 from data import build_captcha_data
 
