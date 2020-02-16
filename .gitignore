@@ -261,3 +261,7 @@ checkpoint
 
 # virtual environment
 venv
+
+# extras
+b64solver.py
+visualize.py
